@@ -25,18 +25,11 @@ jobs:
       # Memanggil langsung ${{ secrets.EC2_USER }} dst, di dalam perintah rsync
       - name: Sync repository to EC2
         run: |
-          rsync -avz --delete --exclude '.git' --exclude '.github' --exclude 'node_modules' ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ secrets.DEPLOY_PATH || '/home/ubuntu/UAS-ADM' }}
+          rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no" \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'node_modules' \
+            ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/UAS-ADM
         env:
           SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
-
-      # Memanggil langsung variabel ke perintah SSH remote
-      - name: Run remote deploy commands on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} -p 22 << 'EOF'
-          set -e
-          cd /home/ubuntu/UAS-ADM
-          if [ -f docker-compose.yml ]; then
-            docker compose pull || true
-            docker compose up -d --build
-          fi
-          EOF
