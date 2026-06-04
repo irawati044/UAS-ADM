@@ -9,20 +9,25 @@ jobs:
   deploy:
     name: Deploy to EC2
     runs-on: ubuntu-latest
+    
+    # Menghubungkan variabel ENV ke Secret yang benar dari foto Anda
     env:
-      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-      SSH_USER: ${{ secrets.EC2_USER }}
-      SSH_HOST: ${{ secrets.EC2_HOST }}
-      SSH_PORT: ${{ secrets.SSH_PORT }}
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }} # Asumsi ini sudah ada
+      SSH_USER: ${{ secrets.EC2_USER }}      # Dari EC2_USER di foto
+      SSH_HOST: ${{ secrets.EC2_HOST }}      # Dari EC2_HOST di foto
+      SSH_PORT: ${{ secrets.SSH_PORT }}      # Asumsi ini sudah ada
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # --- BAGIAN INI YANG KITA PERBAIKI ---
       - name: Start ssh-agent and add private key
         uses: webfactory/ssh-agent@v0.5.4
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Kita ganti dari SSH_PRIVATE_KEY menjadi PRIVATE_KEY sesuai foto
+          ssh-private-key: ${{ secrets.PRIVATE_KEY }} 
+      # -------------------------------------
 
       - name: Install rsync
         run: sudo apt-get update && sudo apt-get install -y rsync
