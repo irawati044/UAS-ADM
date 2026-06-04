@@ -1,5 +1,5 @@
 services:
-  # 1. SERVICE WEB DINAMIS
+#1. SERVICE WEB DINAMIS
   uas_dinamis:
     image: irawatiiskandar/uas_dinamis:latest
     build: ./uas_dinamis  # sesuaikan dengan nama folder project dinamis Anda
