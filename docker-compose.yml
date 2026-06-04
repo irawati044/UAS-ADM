@@ -2,45 +2,50 @@ version: '3.8'
 
 services:
   web:
-    build: ./web-dinamis
+    image: irawatiiskandar/uas_statis:latest
     container_name: novellib-web
+    restart: always
     ports:
-      - "8080:80"
-    volumes:
-      - ./web-dinamis:/var/www/html
+      - "3000:80"
     environment:
       - DB_HOST=db
-      - DB_PASSWORD=
+      - DB_NAME=esport_db
+      - DB_USER=root
+      - DB_PASS=rootpassword
+    volumes:
+      - uploads_data:/var/www/html/uploads
     depends_on:
       - db
 
   web-statis:
-    build: ./web-statis
+    image: nginx:alpine
     container_name: novellib-statis
     restart: always
     ports:
-      - "8082:80"
+      - "3002:80"
+    volumes:
+      - ./web-statis:/usr/share/nginx/html:ro
+      - ./web-statis/default.conf:/etc/nginx/conf.d/default.conf:ro
 
   db:
-    image: mysql:8.0
+    image: mariadb:10.11
     container_name: novellib-db
     restart: always
     environment:
-      MYSQL_DATABASE: perpustakaan_novel
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: esport_db
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      # Otomatis mengimpor database.sql saat pertama kali database dijalankan
-      - ./web-dinamis/database.sql:/docker-entrypoint-initdb.d/database.sql:ro
+      - ./web-dinamis/database.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: novellib-pma
     restart: always
     ports:
-      - "8081:80"
+      - "3001:80"
     environment:
       - PMA_HOST=db
     depends_on:
@@ -48,4 +53,5 @@ services:
 
 volumes:
   db_data:
+  uploads_data:
 
