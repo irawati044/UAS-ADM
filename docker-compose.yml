@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: novellib-web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web-dinamis:/var/www/html
+    environment:
+      - DB_HOST=db
+      - DB_PASSWORD=
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: novellib-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: perpustakaan_novel
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      # Otomatis mengimpor database.sql saat pertama kali database dijalankan
+      - ./web-dinamis/database.sql:/docker-entrypoint-initdb.d/database.sql:ro
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: novellib-pma
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=db
+    depends_on:
+      - db
+
+volumes:
+  db_data:
