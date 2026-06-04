@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: novellib-web-local
+    ports:
+      - "3000:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - DB_HOST=db
+      - DB_PASSWORD=
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: novellib-db-local
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: perpustakaan_novel
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data_local:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql:ro
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: novellib-pma-local
+    restart: unless-stopped
+    ports:
+      - "8001:80"
+    environment:
+      - PMA_HOST=db
+    depends_on:
+      - db
+
+volumes:
+  db_data_local:
