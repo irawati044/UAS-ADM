@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio - Kholis Irawati Iskandar</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7fb;
+    color: #2c3e50;
+}
+
+/* HEADER */
+.header {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 34px;
+    font-weight: 600;
+}
+
+.header p {
+    margin-top: 8px;
+    opacity: 0.8;
+}
+
+/* FOTO */
+.profile-img {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 20px;
+    border: 5px solid white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* CONTAINER */
+.container {
+    width: 85%;
+    max-width: 1000px;
+    margin: auto;
+    margin-top: -50px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 28px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* TITLE */
+h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    border-left: 4px solid #3b82f6;
+    padding-left: 10px;
+}
+
+/* TEXT */
+p {
+    margin-bottom: 6px;
+}
+
+ul {
+    padding-left: 18px;
+}
+
+li {
+    margin-bottom: 6px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* SKILL */
+.skill {
+    margin-bottom: 12px;
+}
+
+.skill-name {
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.bar {
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 10px;
+}
+
+.fill {
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 10px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #0f172a;
+    color: #e2e8f0;
+    margin-top: 30px;
+}
+
+footer strong {
+    color: #60a5fa;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <h1>Kholis Irawati Iskandar</h1>
+    <p>Mahasiswa | Web Developer | Tech Enthusiast</p>
+
+    <!-- FOTO -->
+    <img src="ira.jpeg" alt="Foto Profil" class="profile-img">
+</div>
+
+<div class="container">
+
+    <!-- ABOUT -->
+    <div class="card">
+        <h2>Tentang Saya</h2>
+        <p>
+            Mahasiswa yang memiliki minat besar di bidang teknologi, khususnya pengembangan web dan sistem.
+            Memiliki pengalaman dalam mengerjakan berbagai proyek seperti sistem absensi berbasis QR,
+            auto deploy hosting, serta pengolahan teks menggunakan NLP.
+        </p>
+    </div>
+
+    <!-- DATA DIRI -->
+    <div class="card">
+        <h2>Data Diri</h2>
+        <p><b>Nama:</b> Kholis Irawati Iskandar</p>
+        <p><b>NIM:</b> 2388010025</p>
+        <p><b>Email:</b> kholisirawati@gmail.com</p>
+        <p><b>No HP:</b> 08xxxxxxxxxx</p>
+    </div>
+
+    <div class="grid">
+
+        <!-- PENDIDIKAN -->
+        <div class="card">
+            <h2>Pendidikan</h2>
+            <ul>
+                <li>SDN Binong 1</li>
+                <li>MTS Assalam Subang</li>
+                <li>SMAN 1 Pagaden</li>
+                <li>UIN Siber Syekh Nurjati Cirebon</li>
+            </ul>
+        </div>
+
+        <!-- SKILL -->
+        <div class="card">
+            <h2>Skill</h2>
+
+            <div class="skill">
+                <div class="skill-name">HTML & CSS</div>
+                <div class="bar"><div class="fill" style="width:90%"></div></div>
+            </div>
+
+            <div class="skill">
+                <div class="skill-name">JavaScript</div>
+                <div class="bar"><div class="fill" style="width:75%"></div></div>
+            </div>
+
+            <div class="skill">
+                <div class="skill-name">UI/UX Design</div>
+                <div class="bar"><div class="fill" style="width:70%"></div></div>
+            </div>
+
+            <div class="skill">
+                <div class="skill-name">Python / NLP</div>
+                <div class="bar"><div class="fill" style="width:80%"></div></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PROYEK -->
+    <div class="card">
+        <h2>Proyek</h2>
+        <ul>
+            <li>Website Absensi QR Code</li>
+            <li>Sistem Auto Deploy Hosting</li>
+            <li>NLP Text Preprocessing & Analisis</li>
+        </ul>
+    </div>
+
+</div>
+
+<!-- FOOTER WAJIB -->
+<footer>
+    <strong>Dideploy oleh: Kholis Irawati Iskandar - 2388010025</strong>
+</footer>
+
+</body>
+</html>
