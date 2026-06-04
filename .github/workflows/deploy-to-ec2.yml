@@ -24,10 +24,16 @@ jobs:
           echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      # RE-TRY SINKRONISASI FILE DENGAN MENUNJUK LANGSUNG FILE KEY-NYA
+      # RE-TRY SINKRONISASI FILE (SUDAH AMAN DARI PENGHAPUSAN SESSIONS)
       - name: Sync repository to EC2
         run: |
-          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" --exclude '.git' --exclude '.github' --exclude 'node_modules' ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/UAS-ADM
+          rsync -avz --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'node_modules' \
+            --exclude 'web-dinamis/sessions' \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+            ./ ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/UAS-ADM
 
       # REMOTE DEPLOY UTAMA
       - name: Run remote deploy commands on EC2
