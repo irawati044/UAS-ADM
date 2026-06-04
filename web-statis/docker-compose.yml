@@ -1,0 +1,7 @@
+services:
+  uas_statis:
+    image: irawatiiskandar/uas_static:latest
+    build: .
+    ports:
+      - "80:80"
+    restart: always

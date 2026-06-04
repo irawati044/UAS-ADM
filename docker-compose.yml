@@ -1,15 +1,14 @@
-version: '3.8'
-
 services:
-  web:
-    image: irawatiiskandar/uas_statis:latest
-    container_name: novellib-web
-    restart: always
+  # 1. SERVICE WEB DINAMIS
+  uas_dinamis:
+    image: irawatiiskandar/uas_dinamis:latest
+    build: ./web-dinamis  # disesuaikan dengan folder 'web-dinamis' hasil ls Anda
     ports:
       - "3000:80"
+    restart: always
     environment:
       - DB_HOST=db
-      - DB_NAME=esport_db
+      - DB_NAME=perpustakaan_novel
       - DB_USER=root
       - DB_PASS=rootpassword
     volumes:
@@ -17,41 +16,26 @@ services:
     depends_on:
       - db
 
-  web-statis:
-    image: nginx:alpine
-    container_name: novellib-statis
-    restart: always
+  # 2. SERVICE WEB STATIS
+  uas_static:            # Sudah diganti pakai huruf 'c' di belakang
+    image: irawatiiskandar/uas_static:latest
+    build: ./web-statis   # disesuaikan dengan folder 'web-statis' hasil ls Anda
     ports:
-      - "3002:80"
-    volumes:
-      - ./web-statis:/usr/share/nginx/html:ro
-      - ./web-statis/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - "80:80"
+    restart: always
 
+  # 3. SERVICE DATABASE
   db:
     image: mariadb:10.11
-    container_name: novellib-db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: esport_db
-    ports:
-      - "3306:3306"
+      MYSQL_DATABASE: perpustakaan_novel
     volumes:
       - db_data:/var/lib/mysql
-      - ./web-dinamis/database.sql:/docker-entrypoint-initdb.d/init.sql:ro
-
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: novellib-pma
-    restart: always
-    ports:
-      - "3001:80"
-    environment:
-      - PMA_HOST=db
-    depends_on:
-      - db
+      # Pastikan file database.sql ini ada di folder ~/UAS-ADM Anda, jika tidak ada line ini bisa dihapus
+      - ./database.sql:/docker-entrypoint-initdb.d/init.sql 
 
 volumes:
   db_data:
   uploads_data:
-
