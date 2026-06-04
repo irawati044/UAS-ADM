@@ -1,0 +1,46 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+      SSH_USER: ${{ secrets.EC2_USER }}
+      SSH_HOST: ${{ secrets.EC2_HOST }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start ssh-agent and add private key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install rsync
+        run: sudo apt-get update && sudo apt-get install -y rsync
+
+      - name: Sync repository to EC2
+        run: |
+          rsync -avz --delete --exclude '.git' --exclude '.github' --exclude 'node_modules' ./ $SSH_USER@$SSH_HOST:$DEPLOY_PATH
+        env:
+          SSH_AUTH_SOCK: ${{ env.SSH_AUTH_SOCK }}
+
+      - name: Run remote deploy commands on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST -p ${SSH_PORT:-22} << 'EOF'
+          set -e
+          cd ${DEPLOY_PATH}
+          # Optional: pull latest images and start services
+          if [ -f docker-compose.yml ]; then
+            docker-compose pull || true
+            docker-compose up -d --build
+          fi
+          EOF
