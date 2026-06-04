@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   web:
-    build: .
+    build: ./web-dinamis
     container_name: novellib-web
     ports:
       - "8080:80"
@@ -13,6 +13,15 @@ services:
       - DB_PASSWORD=
     depends_on:
       - db
+
+  web-statis:
+    image: nginx:alpine
+    container_name: novellib-statis
+    restart: always
+    ports:
+      - "8082:80"
+    volumes:
+      - ./web-statis:/usr/share/nginx/html:ro
 
   db:
     image: mysql:8.0
@@ -41,3 +50,4 @@ services:
 
 volumes:
   db_data:
+
