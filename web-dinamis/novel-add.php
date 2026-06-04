@@ -1,4 +1,9 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    ini_set("session.save_path", __DIR__ . "/sessions");
+    session_start();
+}
+require_once "config/db.php"; // <--- WAJIB TAMBAHKAN INI DI ATAS HEADER
 $page_title = "Tambah Novel Baru";
 $page_desc = "Masukkan detail novel baru dan unggah gambar sampul.";
 require_once 'includes/header.php';

@@ -112,3 +112,24 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <span>⚠️</span> <?php echo $_SESSION['action_error']; unset($_SESSION['action_error']); ?>
                 </div>
             <?php endif; ?>
+?> ```
+
+#### 2. Cek file `novels.php` di VS Code laptop kamu.
+Pastikan bagian atas file `novels.php` tersusun bersih seperti ini (tidak ada potongan teks sisa editan `sed` kemarin):
+
+```php
+<?php
+$page_title = "Data Novel";
+require_once 'config/db.php';
+require_once 'includes/header.php';
+
+// Proteksi halaman: hanya admin yang diperbolehkan
+if ($_SESSION['role'] !== 'admin') {
+    $_SESSION['action_error'] = "Anda tidak memiliki hak akses ke halaman tersebut.";
+    header("Location: dashboard.php");
+    exit();
+}
+
+// Pencarian Novel
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+?>
