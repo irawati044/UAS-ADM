@@ -1,5 +1,5 @@
 <?php
-$page_title = "Dashboard Perpustakaan";
+$page_title = "Dashboard Perpustakaan_Kholis Irawati iskandar_2388010025";
 $page_desc = "Selamat datang kembali di panel perpustakaan digital NovelLib.";
 require_once 'includes/header.php';
 
