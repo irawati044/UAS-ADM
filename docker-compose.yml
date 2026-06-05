@@ -24,16 +24,15 @@ services:
       - "80:80"
     restart: always
 
-  # 3. SERVICE DATABASE
+# 3. SERVICE DATABASE
   db:
     image: mariadb:10.11
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: perpustakaan_novel
+      - MYSQL_ROOT_PASSWORD=rootpassword  # <--- GANTI JADI PAKAI STRIP DAN SAMA DENGAN (=)
+      - MYSQL_DATABASE=perpustakaan_novel # <--- GANTI JADI PAKAI STRIP DAN SAMA DENGAN (=)
     volumes:
       - db_data:/var/lib/mysql
-      # Pastikan file database.sql ini ada di folder ~/UAS-ADM Anda, jika tidak ada line ini bisa dihapus
       - ./database.sql:/docker-entrypoint-initdb.d/init.sql 
 
 volumes:
